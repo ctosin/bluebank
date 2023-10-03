@@ -1,5 +1,7 @@
 package org.eclipse.jakarta.hello;
 
+import java.util.List;
+
 import br.com.softblue.bluebank.domain.user.User;
 import br.com.softblue.bluebank.domain.user.UserRepository;
 import jakarta.inject.Inject;
@@ -18,16 +20,15 @@ public class TestResource {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Transactional
-	public String test() {
+	public List<User> test() {
 		
-		User user = new User();
-		user.setEmail("a@b");
-		user.setName("Fulano");
-		user.setPassword("abc");
-		user.setCpf("99999999999");
-		
-		userRepository.save(user);
-		
-		return "OK";
+//		User user = new User();
+//		user.setEmail("a@b");
+//		user.setName("Fulano");
+//		user.setPassword("abc");
+//		user.setCpf("99999999999");
+//		userRepository.save(user);
+//		
+		return userRepository.findAll();
 	}
 }
