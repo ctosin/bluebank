@@ -2,36 +2,18 @@ package br.com.softblue.bluebank.domain.user;
 
 import java.util.List;
 
+import br.com.softblue.bluebank.domain.shared.AbstractRepository;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
 
 @RequestScoped
-public class UserRepository {
+public class UserRepository extends AbstractRepository<User, String> {
 
-	@Inject
-	private EntityManager em;
-	
-	public void save(User user) {
-		em.persist(user);
+	@Override
+	protected Class<User> getEntityClass() {
+		return User.class;
 	}
 	
-	public void deleteById(String userId) {
-		User user = findById(userId);
-		em.remove(user);
-	}
-	
-	@SuppressWarnings("unchecked")
 	public List<User> findAll() {
-		Query q = em.createQuery("SELECT u FROM User u ORDER BY u.email");
-		return q.getResultList();
-	}
-	
-	public User findById(String userId) {
-		TypedQuery<User> q = em.createQuery("SELECT u FROM User u WHERE u.id = :id", User.class);
-		q.setParameter("id", userId);
-		return q.getSingleResult();
+		return query("SELECT u FROM User u ORDER BY u.email");
 	}
 }

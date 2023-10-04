@@ -4,12 +4,13 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.util.List;
 
+import br.com.softblue.bluebank.application.AccountService;
+import br.com.softblue.bluebank.application.UserService;
+import br.com.softblue.bluebank.domain.account.Account;
 import br.com.softblue.bluebank.domain.user.User;
-import br.com.softblue.bluebank.domain.user.UserRepository;
 import br.com.softblue.bluebank.infrastructure.api.dto.CredentialsDTO;
 import br.com.softblue.bluebank.infrastructure.api.dto.SaveUserDTO;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -23,57 +24,54 @@ import jakarta.ws.rs.Produces;
 public class UsersResource {
 	
 	@Inject
-	private UserRepository userRepository;
+	private UserService userService;
+	
+	@Inject
+	private AccountService accountService;
 
 	@GET
 	@Produces(APPLICATION_JSON)
 	public List<User> getAll() {
-		return userRepository.findAll();
+		return userService.getAll();
 	}
 	
 	@GET
 	@Path("{userId}")
 	@Produces(APPLICATION_JSON)
 	public User getById(@PathParam("userId") String userId) {
-		return userRepository.findById(userId);
+		return userService.getById(userId);
 	}
 	
 	@DELETE
 	@Path("{userId}")
-	@Transactional
 	public void deleteById(@PathParam("userId") String userId) {
-		userRepository.deleteById(userId);
+		userService.deleteById(userId);
 	}
 	
 	@PUT
 	@Path("{userId}")
-	@Transactional
 	public void updateUser(@PathParam("userId") String userId, SaveUserDTO saveUserDTO) {
-		User user = userRepository.findById(userId);
-		populateFromDTO(user, saveUserDTO);
+		userService.updateUser(userId, saveUserDTO);
 	}
 	
 	@POST
 	@Consumes(APPLICATION_JSON)
 	@Produces(APPLICATION_JSON)
-	@Transactional
 	public CredentialsDTO createUser(SaveUserDTO saveUserDTO) {
-		User user = new User();
-		populateFromDTO(user, saveUserDTO);
-		
-		userRepository.save(user);
-		
-		CredentialsDTO credentialsDTO = new CredentialsDTO();
-		credentialsDTO.setId(user.getId());
-		credentialsDTO.setPassword(saveUserDTO.getPassword());
-		
-		return credentialsDTO;
+		return userService.createUser(saveUserDTO);
 	}
 	
-	private void populateFromDTO(User user, SaveUserDTO saveUserDTO) {
-		user.setName(saveUserDTO.getName());
-		user.setPassword(saveUserDTO.getPassword());
-		user.setEmail(saveUserDTO.getEmail());
-		user.setCpf(saveUserDTO.getCpf());
+	@GET
+	@Path("{userId}/accounts")
+	@Produces(APPLICATION_JSON)
+	public List<Account> getAccounts(@PathParam("userId") String userId) {
+		return accountService.findAccountsByUserId(userId);
+	}
+	
+	@GET
+	@Path("{userId}/accounts/{accountId}")
+	@Produces(APPLICATION_JSON)
+	public Account getAccountByUserIdAndId(@PathParam("userId") String userId, @PathParam("accountId") Long accountId) {
+		return accountService.findAccountByUserIdAndId(userId, accountId);
 	}
 }
