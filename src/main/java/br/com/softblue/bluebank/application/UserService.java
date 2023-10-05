@@ -6,10 +6,12 @@ import static java.math.BigDecimal.ZERO;
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
 import java.util.List;
+import java.util.Objects;
 
 import br.com.softblue.bluebank.domain.account.Account;
 import br.com.softblue.bluebank.domain.account.AccountRepository;
 import br.com.softblue.bluebank.domain.account.AccountType;
+import br.com.softblue.bluebank.domain.exception.RequestException;
 import br.com.softblue.bluebank.domain.user.User;
 import br.com.softblue.bluebank.domain.user.UserRepository;
 import br.com.softblue.bluebank.infrastructure.api.dto.CredentialsDTO;
@@ -29,6 +31,10 @@ public class UserService {
 	
 	@Transactional
 	public CredentialsDTO createUser(SaveUserDTO saveUserDTO) {
+		if (!Objects.isNull(userRepository.findUserByEmail(saveUserDTO.getEmail()))) {
+			throw new RequestException("E05", "O e-mail " + saveUserDTO.getEmail() + " já existe");
+		}
+		
 		User user = new User();
 		populateFromDTO(user, saveUserDTO);
 		userRepository.save(user);
