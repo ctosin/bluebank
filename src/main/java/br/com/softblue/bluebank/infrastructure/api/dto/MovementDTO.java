@@ -52,4 +52,10 @@ public class MovementDTO {
 	public String getDescription() {
 		return description;
 	}
+
+	@Override
+	public String toString() {
+		return "MovementDTO [id=" + id + ", date=" + date + ", type=" + type + ", amount=" + amount + ", balance="
+				+ balance + ", description=" + description + "]";
+	}
 }

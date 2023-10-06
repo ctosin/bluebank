@@ -4,6 +4,9 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON_TYPE;
 import static jakarta.ws.rs.core.Response.Status.BAD_REQUEST;
 import static jakarta.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.com.softblue.bluebank.domain.exception.RequestException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
@@ -12,10 +15,12 @@ import jakarta.ws.rs.ext.Provider;
 
 @Provider
 public class GenericExceptionMapper implements ExceptionMapper<Exception> {
+	
+	private static final Logger logger = LoggerFactory.getLogger(GenericExceptionMapper.class);
 
 	@Override
 	public Response toResponse(Exception exception) {
-		exception.printStackTrace();
+		logger.error("Ops!", exception);
 		Status status = getStatus(exception);
 		
 		return Response

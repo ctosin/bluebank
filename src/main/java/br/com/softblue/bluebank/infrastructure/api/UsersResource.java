@@ -10,7 +10,9 @@ import br.com.softblue.bluebank.domain.user.User;
 import br.com.softblue.bluebank.infrastructure.api.dto.AccountDTO;
 import br.com.softblue.bluebank.infrastructure.api.dto.CredentialsDTO;
 import br.com.softblue.bluebank.infrastructure.api.dto.MovementDTO;
+import br.com.softblue.bluebank.infrastructure.api.dto.SaveMovementDTO;
 import br.com.softblue.bluebank.infrastructure.api.dto.SaveUserDTO;
+import br.com.softblue.bluebank.infrastructure.api.log.Log;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -23,8 +25,9 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 
 @Path("users")
+@Log
 public class UsersResource {
-	
+
 	@Inject
 	private UserService userService;
 	
@@ -90,5 +93,13 @@ public class UsersResource {
 			.stream()
 			.map(MovementDTO::new)
 			.toList();
+	}
+	
+	@POST
+	@Path("{userId}/accounts/{accountId}/movements")
+	@Consumes(APPLICATION_JSON)
+	@Produces(APPLICATION_JSON)
+	public Long createMovement(@PathParam("userId") String userId, @PathParam("accountId") Long accountId, SaveMovementDTO saveMovementDTO) {
+		return accountService.createMovement(userId, accountId, saveMovementDTO).getId();
 	}
 }
