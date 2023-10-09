@@ -2,12 +2,14 @@ package br.com.softblue.bluebank.infrastructure.mapper;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON_TYPE;
 import static jakarta.ws.rs.core.Response.Status.BAD_REQUEST;
+import static jakarta.ws.rs.core.Response.Status.FORBIDDEN;
 import static jakarta.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.softblue.bluebank.domain.exception.RequestException;
+import br.com.softblue.bluebank.infrastructure.api.security.AuthException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.ExceptionMapper;
@@ -39,6 +41,8 @@ public class GenericExceptionMapper implements ExceptionMapper<Exception> {
 	private Status getStatus(Exception exception) {
 		if (exception instanceof RequestException) {
 			return BAD_REQUEST;
+		} else if (exception instanceof AuthException) {
+			return FORBIDDEN;
 		}
 		
 		return INTERNAL_SERVER_ERROR;
@@ -55,6 +59,8 @@ public class GenericExceptionMapper implements ExceptionMapper<Exception> {
 	private String getErrorMessage(Exception exception) {
 		if (exception instanceof RequestException) {
 			return exception.getMessage();
+		} else if (exception instanceof AuthException) {
+			return null;
 		}
 		
 		return "Erro interno";
