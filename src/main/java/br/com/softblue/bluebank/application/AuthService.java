@@ -34,4 +34,18 @@ public class AuthService {
 		String jwt = jwtService.generate(userId);
 		return jwt;
 	}
+	
+	public User loginByEmail(String email, String password) {
+		User user = userRepository.findUserByEmail(email);
+		
+		if (user == null) {
+			return null;
+		}
+		
+		if (!Objects.equals(sha256Hex(password), user.getPassword())) {
+			return null;
+		}
+		
+		return user;
+	}
 }
