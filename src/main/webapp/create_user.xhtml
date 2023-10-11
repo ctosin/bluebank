@@ -10,26 +10,31 @@
 		<ui:define name="title">Cadastrar Usuário</ui:define>
 		
 		<ui:define name="content">
+			<h:outputText value="#{createUserBean.message}" rendered="#{createUserBean.message != null}" style="color: red;" />
 			<h:form>
 				<table>
 					<tr>
 						<td>Nome:</td>
 						<td><h:inputText value="#{createUserBean.user.name}" id="inputName" /></td>
+						<td><h:message for="inputName" style="color: red;" /></td>
 					</tr>
 					<tr>
 						<td>E-mail:</td>
 						<td><h:inputText value="#{createUserBean.user.email}" id="inputEmail" /></td>
+						<td><h:message for="inputEmail" style="color: red;" /></td>
 					</tr>
 					<tr>
 						<td>Senha:</td>
 						<td><h:inputSecret value="#{createUserBean.user.password}" id="inputPassword" /></td>
+						<td><h:message for="inputPassword" style="color: red;" /></td>
 					</tr>
 					<tr>
 						<td>CPF:</td>
 						<td><h:inputText value="#{createUserBean.user.cpf}" id="inputCpf" /></td>
+						<td><h:message for="inputCpf" style="color: red;" /></td>
 					</tr>
 					<tr>
-						<td colspan="2"><h:commandButton value="Cadastrar" action="#{createUserBean.create}" /></td>
+						<td colspan="3"><h:commandButton value="Cadastrar" action="#{createUserBean.create}" /></td>
 					</tr>
 				</table>
 			</h:form>

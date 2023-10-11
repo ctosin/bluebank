@@ -1,6 +1,7 @@
 package br.com.softblue.bluebank.infrastructure.web.bean;
 
 import br.com.softblue.bluebank.application.UserService;
+import br.com.softblue.bluebank.domain.exception.RequestException;
 import br.com.softblue.bluebank.infrastructure.api.dto.SaveUserDTO;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
@@ -18,13 +19,21 @@ public class CreateUserBean {
 	@Inject
 	private UserService userService;
 	
+	private String message;
+	
 	@PostConstruct
 	public void setup() {
 		user = new SaveUserDTO();
 	}
 	
 	public String create() {
-		userService.createUser(user);
+		try {
+			userService.createUser(user);
+		} catch (RequestException e) {
+			message = e.getMessage();
+			return null;
+		}
+		
 		//TODO Lógica para cadastrar
 		return "user_created?faces-redirect=true";
 	}
@@ -38,5 +47,9 @@ public class CreateUserBean {
 
 	public void setUser(SaveUserDTO user) {
 		this.user = user;
+	}
+	
+	public String getMessage() {
+		return message;
 	}
 }

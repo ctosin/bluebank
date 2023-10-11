@@ -1,7 +1,5 @@
 package br.com.softblue.bluebank.application;
 
-import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
-
 import java.util.Objects;
 
 import br.com.softblue.bluebank.domain.user.User;
@@ -20,6 +18,9 @@ public class AuthService {
 	@Inject
 	private JWTService jwtService;
 	
+	@Inject
+	private HashGenerator hashGenerator;
+	
 	public String login(String userId, String password) {
 		User user = userRepository.findById(userId);
 		
@@ -27,7 +28,7 @@ public class AuthService {
 			throw new AuthException();
 		}
 		
-		if (!Objects.equals(sha256Hex(password), user.getPassword())) {
+		if (!Objects.equals(hashGenerator.generate(password), user.getPassword())) {
 			throw new AuthException();
 		}
 		
@@ -42,7 +43,7 @@ public class AuthService {
 			return null;
 		}
 		
-		if (!Objects.equals(sha256Hex(password), user.getPassword())) {
+		if (!Objects.equals(hashGenerator.generate(password), user.getPassword())) {
 			return null;
 		}
 		

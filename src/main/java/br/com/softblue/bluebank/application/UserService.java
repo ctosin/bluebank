@@ -3,7 +3,6 @@ package br.com.softblue.bluebank.application;
 import static br.com.softblue.bluebank.domain.account.AccountType.CURRENT;
 import static br.com.softblue.bluebank.domain.account.AccountType.SAVINGS;
 import static java.math.BigDecimal.ZERO;
-import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
 import java.util.List;
 import java.util.Objects;
@@ -28,6 +27,9 @@ public class UserService {
 	
 	@Inject
 	private AccountRepository accountRepository;
+	
+	@Inject
+	private HashGenerator hashGenerator;
 	
 	@Transactional
 	public CredentialsDTO createUser(SaveUserDTO saveUserDTO) {
@@ -78,7 +80,7 @@ public class UserService {
 	
 	private void populateFromDTO(User user, SaveUserDTO saveUserDTO) {
 		user.setName(saveUserDTO.getName());
-		user.setPassword(sha256Hex(saveUserDTO.getPassword()));
+		user.setPassword(hashGenerator.generate(saveUserDTO.getPassword()));
 		user.setEmail(saveUserDTO.getEmail());
 		user.setCpf(saveUserDTO.getCpf());
 	}

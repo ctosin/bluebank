@@ -1,6 +1,8 @@
 package br.com.softblue.bluebank.infrastructure.web.security;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
@@ -32,5 +34,9 @@ public class LoggedUserBean implements Serializable {
 	
 	public boolean isLogged() {
 		return id != null;
+	}
+	
+	public String getDate() {
+		return LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
 	}
 }

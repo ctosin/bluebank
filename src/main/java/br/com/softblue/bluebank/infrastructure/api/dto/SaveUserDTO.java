@@ -19,7 +19,7 @@ public class SaveUserDTO {
 	@Size(max = 15, message = "Senha é muito grande")
 	private String password;
 	
-	@NotBlank
+	@NotBlank(message = "CPF não fornecido")
 	@Pattern(regexp = "[0-9]{11}", message = "CPF está fora do padrão")
 	private String cpf;
 

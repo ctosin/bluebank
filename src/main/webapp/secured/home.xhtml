@@ -4,13 +4,30 @@
 <html
 	xmlns:faces="jakarta.faces"
 	xmlns:h="jakarta.faces.html"
-	xmlns:ui="jakarta.faces.facelets">
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core">
 	
 	<ui:composition template="/WEB-INF/template.xhtml">
 		<ui:define name="title">Página Inicial</ui:define>
 		
 		<ui:define name="content">
-			<h3>Bem vindo(a), #{loggedUserBean.name}!</h3>
+			<h3>Bem vindo(a), #{loggedUserBean.name}! [ #{loggedUserBean.date} ]</h3>
+			<br />
+			<p>Estas são as suas contas:</p>
+			
+			<table>
+				<ui:repeat value="#{homeBean.accounts}" var="account">
+					<tr>
+						<td width="200">#{account.formattedType}</td>
+						<td width="200">#{account.formattedBalance}</td>
+						<td width="100">
+							<h:link value="Acessar" outcome="account">
+								<f:param name="accountId" value="#{account.id}" />
+							</h:link>
+						</td>
+					</tr>
+				</ui:repeat>
+			</table>
 		</ui:define>
 	
 	</ui:composition>
