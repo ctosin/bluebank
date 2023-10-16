@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html
+	xmlns:faces="jakarta.faces"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core">
+	
+	<h:body>
+		<ui:composition template="/WEB-INF/template.xhtml">
+			<ui:define name="title">Página Inicial</ui:define>
+			<ui:define name="content">
+				<h3>Bem vindo(a), #{loggedUser.name}!</h3>
+				
+				<br />
+				<p>Estas são suas contas:</p>
+				<h:form>
+					<table>
+						<ui:repeat value="#{homeBean.accounts}" var="account">
+							<tr>
+								<td width="200">#{account.formattedType}</td>
+								<td width="200">#{account.formattedBalance}</td>
+								<td width="100">
+									<h:link value="Acessar" outcome="account">
+										<f:param name="accountId" value="#{account.id}" />
+									</h:link>
+								</td>
+							</tr>
+						</ui:repeat>
+					</table>
+				</h:form>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>

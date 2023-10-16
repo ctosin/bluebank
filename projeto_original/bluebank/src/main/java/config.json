@@ -1,0 +1,5 @@
+{
+	"jwtIssuer": "BlueBank",
+	"jwtSecret": "the-secret-key",
+	"jwtExpirationInMinutes": 5
+}

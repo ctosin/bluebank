@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html
+	xmlns:faces="jakarta.faces"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets">
+	
+	<h:body>
+		<ui:composition template="/WEB-INF/template.xhtml">
+			<ui:define name="title">Login</ui:define>
+			<ui:define name="content">
+				<h:form>
+					<p>E-mail:</p>
+					<p><h:inputText value="#{loginBean.email}" id="inputEmail" /></p>
+					<p><h:message for="inputEmail" style="color: red;" /></p>
+					
+					<p>Senha:</p>
+					<p><h:inputSecret value="#{loginBean.password}" id="inputPassword" /></p>
+					<p><h:message for="inputPassword" style="color: red;" /></p>
+						
+					<p>
+						<h:commandButton value="Login" action="#{loginBean.login}" />
+						&nbsp;
+						<h:button value="Novo Usuário" outcome="create_user" />
+					</p>
+					
+					<p><h:outputText value="#{loginBean.message}" style="color: red;" /></p>
+				</h:form>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>

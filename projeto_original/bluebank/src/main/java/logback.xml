@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration>
+
+	<property name="LOG_DIR" value="C:/Temp/log" />
+
+	<appender name="console"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>[%-5level] %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="file" class="ch.qos.logback.core.FileAppender">
+		<file>${LOG_DIR}/out.log</file>
+    	<append>true</append>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="br.com.softblue.bluebank" level="debug" additivity="false">
+		<appender-ref ref="console" />
+		<appender-ref ref="file" />
+	</logger>
+
+	<root level="warn">
+		<appender-ref ref="console" />
+	</root>
+</configuration>

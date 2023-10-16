@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html
+	xmlns:faces="jakarta.faces"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core">
+	
+	<h:body>
+		<ui:composition template="/WEB-INF/template.xhtml">
+			<f:metadata>
+				<f:viewParam name="accountId" value="#{createMovementBean.accountId}" />
+			</f:metadata>
+			
+			<ui:define name="title">Cadastrar Movimento</ui:define>
+			<ui:define name="content">
+				<h:form>
+					<h:inputHidden value="#{createMovementBean.accountId}" />
+					
+					<p>Descrição:</p>
+					<p><h:inputText value="#{createMovementBean.movement.description}" id="inputDescription" /></p>
+					<p><h:message for="inputDescription" style="color: red;" /></p>
+					
+					<p>Valor:</p>
+					<p><h:inputText value="#{createMovementBean.movement.amount}" id="inputAmount" converter="bigDecimalConverter" /></p>
+					<p><h:message for="inputAmount" style="color: red;" /></p>
+					
+					<p>Tipo:</p>
+					<p>
+						<h:selectOneRadio value="#{createMovementBean.movement.type}" id="inputType">
+							<f:selectItem itemValue="DEBIT" itemLabel="Débito" /> 
+							<f:selectItem itemValue="CREDIT" itemLabel="Crédito" />
+						</h:selectOneRadio>
+					</p>
+							
+					<p><h:commandButton value="Cadastrar" action="#{createMovementBean.create}" /></p>
+	
+					<p><h:outputText value="#{createMovementBean.message}" style="color: red;" /></p>
+				</h:form>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>
