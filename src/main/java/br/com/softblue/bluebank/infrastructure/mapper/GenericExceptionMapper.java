@@ -6,10 +6,10 @@ import static jakarta.ws.rs.core.Response.Status.FORBIDDEN;
 import static jakarta.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import br.com.softblue.bluebank.domain.exception.RequestException;
 import br.com.softblue.bluebank.infrastructure.api.security.AuthException;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.ExceptionMapper;
@@ -17,8 +17,9 @@ import jakarta.ws.rs.ext.Provider;
 
 @Provider
 public class GenericExceptionMapper implements ExceptionMapper<Exception> {
-	
-	private static final Logger logger = LoggerFactory.getLogger(GenericExceptionMapper.class);
+
+	@Inject
+	private Logger logger;
 
 	@Override
 	public Response toResponse(Exception exception) {

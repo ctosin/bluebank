@@ -11,6 +11,9 @@ public final class DateUtils {
 	private DateUtils() {}
 
 	public static String formatDate(LocalDate date) {
+		if (date == null) {
+			return null;
+		}
 		return date.format(FORMATTER);
 	}
 }

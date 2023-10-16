@@ -1,7 +1,7 @@
 package br.com.softblue.bluebank.infrastructure.config;
 
 import br.com.softblue.bluebank.application.HashGenerator;
-import br.com.softblue.bluebank.application.MD5HashGenerator;
+import br.com.softblue.bluebank.application.SHAHashGenerator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
 
@@ -12,6 +12,6 @@ public class HashConfig {
 	@ApplicationScoped
 	public HashGenerator create() {
 		//return new SHAHashGenerator();
-		return new MD5HashGenerator();
+		return new SHAHashGenerator();
 	}
 }

@@ -7,8 +7,8 @@ import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.ext.Provider;
@@ -17,7 +17,8 @@ import jakarta.ws.rs.ext.Provider;
 @Log
 public class RequestLoggingFilter implements ContainerRequestFilter {
 
-	private static final Logger logger = LoggerFactory.getLogger(RequestLoggingFilter.class);
+	@Inject
+	private Logger logger;
 	
 	@Override
 	public void filter(ContainerRequestContext context) throws IOException {

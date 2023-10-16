@@ -1,0 +1,5 @@
+{
+	"jwtSecret": "bluebank_key",
+	"jwtIssue": "BlueBank",
+	"jwtExpirationInMinutes": 5
+}

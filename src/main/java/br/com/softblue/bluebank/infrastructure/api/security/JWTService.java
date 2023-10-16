@@ -8,30 +8,46 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 
+import br.com.softblue.bluebank.infrastructure.config.PropertiesConfig;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class JWTService {
 	
-	private static final String KEY = "bluebank_key";
-	private static final Algorithm ALG = Algorithm.HMAC256(KEY);
-	private static final String ISSUER = "BlueBank";
-	private static final JWTVerifier VERIFIER = JWT.require(ALG).withIssuer(ISSUER).build();
+	@Inject
+	private PropertiesConfig props;
+	
+	private String key;
+	private Algorithm alg;
+	private String issuer;
+	private JWTVerifier verifier;
+	private Duration expirationInMinutes;
+	
+	@PostConstruct
+	public void setup() {
+		key = props.getSecret();
+		alg = Algorithm.HMAC256(key);
+		issuer = props.getIssuer();
+		verifier = JWT.require(alg).withIssuer(issuer).build();
+		expirationInMinutes = Duration.ofMinutes(props.getJwtExpirationInMinutes());
+	}
 
 	public String generate(String userId) {
 		Instant now = Instant.now();
 		return JWT
 			.create()
 			.withSubject(userId)
-			.withIssuer(ISSUER)
+			.withIssuer(issuer)
 			.withJWTId(UUID.randomUUID().toString())
 			.withIssuedAt(now)
-			.withExpiresAt(now.plus(Duration.ofMinutes(5)))
-			.withKeyId(KEY)
-			.sign(ALG);
+			.withExpiresAt(now.plus(expirationInMinutes))
+			.withKeyId(key)
+			.sign(alg);
 	}
 	
 	public String verifyAndDecode(String jwt) {
-		return VERIFIER.verify(jwt).getSubject();
+		return verifier.verify(jwt).getSubject();
 	}
 }

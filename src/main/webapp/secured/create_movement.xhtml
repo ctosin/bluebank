@@ -15,7 +15,27 @@
 		<ui:define name="title">Cadastrar Movimento</ui:define>
 		
 		<ui:define name="content">
-			Nada por enquanto...
+			
+			<h:form>
+				<p>Descrição:</p>
+				<p><h:inputText value="#{createMovementBean.movement.description}" id="inputDescription" /></p>
+				<p><h:message for="inputDescription" style="color: red;" /></p>
+				
+				<p>Valor:</p>
+				<p><h:inputText value="#{createMovementBean.movement.amount}" id="inputAmount" converter="bigDecimalConverter" /></p>
+				<p><h:message for="inputAmount" style="color: red;" /></p>
+				
+				<p>Tipo:</p>
+				<p>
+					<h:selectOneRadio value="#{createMovementBean.movement.type}">
+						<f:selectItem itemValue="DEBIT" itemLabel="Débito" />
+						<f:selectItem itemValue="CREDIT" itemLabel="Crédito" />
+					</h:selectOneRadio>
+				</p>
+				
+				<p><h:commandButton value="Cadastrar" action="#{createMovementBean.create}" /></p>
+			</h:form>
+			
 		</ui:define>
 	
 	</ui:composition>

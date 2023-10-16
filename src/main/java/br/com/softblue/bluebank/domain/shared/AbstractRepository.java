@@ -38,5 +38,17 @@ public abstract class AbstractRepository<T, ID> {
 		return q.getResultList();
 	}
 	
+	public void beginTransaction() {
+		em.getTransaction().begin();
+	}
+	
+	public void commitTransaction() {
+		em.getTransaction().commit();
+	}
+	
+	public void rollbackTransaction() {
+		em.getTransaction().rollback();
+	}
+	
 	protected abstract Class<T> getEntityClass();
 }
